@@ -1660,7 +1660,7 @@ Definition Permutation_skip := @perm_skip A.
 Definition Permutation_swap := @perm_swap A.
 Definition Permutation_singleton_inj := @Permutation_length_1 A.
 
-Global Instance Permutation_cons : Proper ((≡ₚ) ==> (≡ₚ)) (@cons A x).
+Global Instance Permutation_cons {x} : Proper ((≡ₚ) ==> (≡ₚ)) (@cons A x).
 Proof. by constructor. Qed.
 Global Existing Instance Permutation_app'.
 
@@ -3073,22 +3073,22 @@ Section Forall2_proper.
   Proof. repeat intro. eauto using Forall2_length. Qed.
   Global Instance: Proper (Forall2 R ==> Forall2 R) tail.
   Proof. repeat intro. eauto using Forall2_tail. Qed.
-  Global Instance: Proper (Forall2 R ==> Forall2 R) (take n).
+  Global Instance : `{Proper (Forall2 R ==> Forall2 R) (take n)}.
   Proof. repeat intro. eauto using Forall2_take. Qed.
-  Global Instance: Proper (Forall2 R ==> Forall2 R) (drop n).
+  Global Instance: `{Proper (Forall2 R ==> Forall2 R) (drop n)}.
   Proof. repeat intro. eauto using Forall2_drop. Qed.
 
-  Global Instance: Proper (Forall2 R ==> option_Forall2 R) (lookup i).
+  Global Instance: `{Proper (Forall2 R ==> option_Forall2 R) (lookup i)}.
   Proof. repeat intro. by apply Forall2_lookup. Qed.
   Global Instance:
-    Proper (R ==> R) f → Proper (Forall2 R ==> Forall2 R) (alter f i).
+    `{Proper (R ==> R) f → Proper (Forall2 R ==> Forall2 R) (alter f i)}.
   Proof. repeat intro. eauto using Forall2_alter. Qed.
-  Global Instance: Proper (R ==> Forall2 R ==> Forall2 R) (insert i).
+  Global Instance: `{Proper (R ==> Forall2 R ==> Forall2 R) (insert i)}.
   Proof. repeat intro. eauto using Forall2_insert. Qed.
   Global Instance:
-    Proper (Forall2 R ==> Forall2 R ==> Forall2 R) (list_inserts i).
+    `{Proper (Forall2 R ==> Forall2 R ==> Forall2 R) (list_inserts i)}.
   Proof. repeat intro. eauto using Forall2_inserts. Qed.
-  Global Instance: Proper (Forall2 R ==> Forall2 R) (delete i).
+  Global Instance: `{Proper (Forall2 R ==> Forall2 R) (delete i)}.
   Proof. repeat intro. eauto using Forall2_delete. Qed.
 
   Global Instance: Proper (option_Forall2 R ==> Forall2 R) option_list.
@@ -3097,17 +3097,17 @@ Section Forall2_proper.
     Proper (R ==> iff) P → Proper (Forall2 R ==> Forall2 R) (filter P).
   Proof. repeat intro; eauto using Forall2_filter. Qed.
 
-  Global Instance: Proper (R ==> Forall2 R) (replicate n).
+  Global Instance: `{Proper (R ==> Forall2 R) (replicate n)}.
   Proof. repeat intro. eauto using Forall2_replicate. Qed.
-  Global Instance: Proper (Forall2 R ==> Forall2 R) (rotate n).
+  Global Instance: `{Proper (Forall2 R ==> Forall2 R) (rotate n)}.
   Proof. repeat intro. eauto using Forall2_rotate. Qed.
-  Global Instance: Proper (Forall2 R ==> Forall2 R) (rotate_take s e).
+  Global Instance: `{Proper (Forall2 R ==> Forall2 R) (rotate_take s e)}.
   Proof. repeat intro. eauto using Forall2_rotate_take. Qed.
   Global Instance: Proper (Forall2 R ==> Forall2 R) reverse.
   Proof. repeat intro. eauto using Forall2_reverse. Qed.
   Global Instance: Proper (Forall2 R ==> option_Forall2 R) last.
   Proof. repeat intro. eauto using Forall2_last. Qed.
-  Global Instance: Proper (R ==> Forall2 R ==> Forall2 R) (resize n).
+  Global Instance: `{Proper (R ==> Forall2 R ==> Forall2 R) (resize n)}.
   Proof. repeat intro. eauto using Forall2_resize. Qed.
 End Forall2_proper.
 
@@ -4420,7 +4420,7 @@ End quote_lookup.
 Section quote.
   Context {A : Type}.
   Class Quote (E1 E2 : env A) (l : list A) (t : rlist nat) := {}.
-  Global Instance quote_nil: Quote E1 E1 [] rnil := {}.
+  Global Instance quote_nil: `{Quote E1 E1 [] rnil} := {}.
   Global Instance quote_node E1 E2 l i:
     QuoteLookup E1 E2 l i → Quote E1 E2 l (rnode i) | 1000 := {}.
   Global Instance quote_cons E1 E2 E3 x l i t :

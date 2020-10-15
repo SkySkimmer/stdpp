@@ -70,11 +70,11 @@ Ltac inv_fin i :=
     end
   end.
 
-Instance FS_inj: Inj (=) (=) (@FS n).
-Proof. intros n i j. apply Fin.FS_inj. Qed.
-Instance fin_to_nat_inj : Inj (=) (=) (@fin_to_nat n).
+Instance FS_inj {n} : Inj (=) (=) (@FS n).
+Proof. intros i j. apply Fin.FS_inj. Qed.
+Instance fin_to_nat_inj {n} : Inj (=) (=) (@fin_to_nat n).
 Proof.
-  intros n i. induction i; intros j; inv_fin j; intros; f_equal/=; auto with lia.
+  intros i. induction i; intros j; inv_fin j; intros; f_equal/=; auto with lia.
 Qed.
 
 Lemma fin_to_nat_lt {n} (i : fin n) : fin_to_nat i < n.

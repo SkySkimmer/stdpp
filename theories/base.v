@@ -481,9 +481,9 @@ Lemma exist_proper {A} (P Q : A → Prop) :
   (∀ x, P x ↔ Q x) → (∃ x, P x) ↔ (∃ x, Q x).
 Proof. firstorder. Qed.
 
-Instance: Comm (↔) (=@{A}).
+Instance: `{Comm (↔) (=@{A})}.
 Proof. red; intuition. Qed.
-Instance: Comm (↔) (λ x y, y =@{A} x).
+Instance: `{Comm (↔) (λ x y, y =@{A} x)}.
 Proof. red; intuition. Qed.
 Instance: Comm (↔) (↔).
 Proof. red; intuition. Qed.
@@ -669,7 +669,7 @@ Instance prod_inhabited {A B} (iA : Inhabited A)
     (iB : Inhabited B) : Inhabited (A * B) :=
   match iA, iB with populate x, populate y => populate (x,y) end.
 
-Instance pair_inj : Inj2 (=) (=) (=) (@pair A B).
+Instance pair_inj {A B} : Inj2 (=) (=) (=) (@pair A B).
 Proof. injection 1; auto. Qed.
 Instance prod_map_inj {A A' B B'} (f : A → A') (g : B → B') :
   Inj (=) (=) f → Inj (=) (=) g → Inj (=) (=) (prod_map f g).
@@ -726,9 +726,9 @@ Instance sum_inhabited_l {A B} (iA : Inhabited A) : Inhabited (A + B) :=
 Instance sum_inhabited_r {A B} (iB : Inhabited A) : Inhabited (A + B) :=
   match iB with populate y => populate (inl y) end.
 
-Instance inl_inj : Inj (=) (=) (@inl A B).
+Instance inl_inj {A B} : Inj (=) (=) (@inl A B).
 Proof. injection 1; auto. Qed.
-Instance inr_inj : Inj (=) (=) (@inr A B).
+Instance inr_inj {A B} : Inj (=) (=) (@inr A B).
 Proof. injection 1; auto. Qed.
 
 Instance sum_map_inj {A A' B B'} (f : A → A') (g : B → B') :

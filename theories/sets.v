@@ -187,7 +187,7 @@ Section set_unfold_simple.
     intros ?; constructor. unfold equiv, set_equiv.
     pose proof (not_elem_of_empty (C:=C)); naive_solver.
   Qed.
-  Global Instance set_unfold_equiv (P Q : A → Prop) X :
+  Global Instance set_unfold_equiv (P Q : A → Prop) X {Y} :
     (∀ x, SetUnfoldElemOf x X (P x)) → (∀ x, SetUnfoldElemOf x Y (Q x)) →
     SetUnfold (X ≡ Y) (∀ x, P x ↔ Q x) | 10.
   Proof. constructor. apply forall_proper; naive_solver. Qed.
@@ -195,7 +195,7 @@ Section set_unfold_simple.
     (∀ x, SetUnfoldElemOf x X (P x)) → (∀ x, SetUnfoldElemOf x Y (Q x)) →
     SetUnfold (X ⊆ Y) (∀ x, P x → Q x).
   Proof. constructor. apply forall_proper; naive_solver. Qed.
-  Global Instance set_unfold_subset (P Q : A → Prop) X :
+  Global Instance set_unfold_subset (P Q : A → Prop) X {Y} :
     (∀ x, SetUnfoldElemOf x X (P x)) → (∀ x, SetUnfoldElemOf x Y (Q x)) →
     SetUnfold (X ⊂ Y) ((∀ x, P x → Q x) ∧ ¬∀ x, Q x → P x).
   Proof.
@@ -253,15 +253,15 @@ Section set_unfold_monad.
   Global Instance set_unfold_ret {A} (x y : A) :
     SetUnfoldElemOf x (mret (M:=M) y) (x = y).
   Proof. constructor; apply elem_of_ret. Qed.
-  Global Instance set_unfold_bind {A B} (f : A → M B) X (P Q : A → Prop) :
+  Global Instance set_unfold_bind {A B} (f : A → M B) X (P Q : A → Prop) {x} :
     (∀ y, SetUnfoldElemOf y X (P y)) → (∀ y, SetUnfoldElemOf x (f y) (Q y)) →
     SetUnfoldElemOf x (X ≫= f) (∃ y, Q y ∧ P y).
   Proof. constructor. rewrite elem_of_bind; naive_solver. Qed.
-  Global Instance set_unfold_fmap {A B} (f : A → B) (X : M A) (P : A → Prop) :
+  Global Instance set_unfold_fmap {A B} (f : A → B) (X : M A) (P : A → Prop) {x} :
     (∀ y, SetUnfoldElemOf y X (P y)) →
     SetUnfoldElemOf x (f <$> X) (∃ y, x = f y ∧ P y).
   Proof. constructor. rewrite elem_of_fmap; naive_solver. Qed.
-  Global Instance set_unfold_join {A} (X : M (M A)) (P : M A → Prop) :
+  Global Instance set_unfold_join {A} (X : M (M A)) (P : M A → Prop) {x} :
     (∀ Y, SetUnfoldElemOf Y X (P Y)) →
     SetUnfoldElemOf x (mjoin X) (∃ Y, x ∈ Y ∧ P Y).
   Proof. constructor. rewrite elem_of_join; naive_solver. Qed.
@@ -296,7 +296,7 @@ Section set_unfold_list.
     SetUnfoldElemOf x l P → SetUnfoldElemOf x (reverse l) P.
   Proof. constructor. by rewrite elem_of_reverse, (set_unfold_elem_of x l P). Qed.
 
-  Global Instance set_unfold_list_fmap {B} (f : A → B) l P :
+  Global Instance set_unfold_list_fmap {B} (f : A → B) l P {x:B} :
     (∀ y, SetUnfoldElemOf y l (P y)) →
     SetUnfoldElemOf x (f <$> l) (∃ y, x = f y ∧ P y).
   Proof.
@@ -1131,7 +1131,7 @@ Section set_seq.
     - rewrite elem_of_empty. lia.
     - rewrite elem_of_union, elem_of_singleton, IH. lia.
   Qed.
-  Global Instance set_unfold_seq start len :
+  Global Instance set_unfold_seq start len {x} :
     SetUnfoldElemOf x (set_seq (C:=C) start len) (start ≤ x < start + len).
   Proof. constructor; apply elem_of_set_seq. Qed.
 

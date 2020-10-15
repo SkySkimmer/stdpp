@@ -20,8 +20,8 @@ Arguments String.append : simpl never.
 Instance ascii_eq_dec : EqDecision ascii := ascii_dec.
 Instance string_eq_dec : EqDecision string.
 Proof. solve_decision. Defined.
-Instance string_app_inj : Inj (=) (=) (String.append s1).
-Proof. intros s1 ???. induction s1; simplify_eq/=; f_equal/=; auto. Qed.
+Instance string_app_inj {s1} : Inj (=) (=) (String.append s1).
+Proof. intros ???. induction s1; simplify_eq/=; f_equal/=; auto. Qed.
 
 Instance string_inhabited : Inhabited string := populate "".
 

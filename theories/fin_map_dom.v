@@ -211,7 +211,7 @@ Proof.
   constructor. by rewrite dom_delete, elem_of_difference,
     (set_unfold_elem_of _ (dom _ _) _), elem_of_singleton.
 Qed.
-Global Instance set_unfold_dom_singleton {A} i j :
+Global Instance set_unfold_dom_singleton {A} i j {x} :
   SetUnfoldElemOf i (dom D ({[ j := x ]} : M A)) (i = j).
 Proof. constructor. by rewrite dom_singleton, elem_of_singleton. Qed.
 Global Instance set_unfold_dom_union {A} i (m1 m2 : M A) Q1 Q2 :
@@ -252,6 +252,6 @@ Lemma dom_seq_L `{FinMapDom nat M D, !LeibnizEquiv D} {A} start (xs : list A) :
   dom D (map_seq (M:=M A) start xs) = set_seq start (length xs).
 Proof. unfold_leibniz. apply dom_seq. Qed.
 
-Instance set_unfold_dom_seq `{FinMapDom nat M D} {A} start (xs : list A) :
+Instance set_unfold_dom_seq `{FinMapDom nat M D} {A} start (xs : list A) {i} :
   SetUnfoldElemOf i (dom D (map_seq start (M:=M A) xs)) (start ≤ i < start + length xs).
 Proof. constructor. by rewrite dom_seq, elem_of_set_seq. Qed.
